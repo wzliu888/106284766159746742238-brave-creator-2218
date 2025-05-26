@@ -18,9 +18,19 @@ function App() {
   }, [])
 
   const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('en-US', {
+    const time = date.toLocaleTimeString('en-US', {
       hour12: true,
     })
+    const dateStr = date.toLocaleDateString('en-US', {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    })
+    return {
+      time,
+      date: dateStr,
+    }
   }
 
   return (
@@ -33,7 +43,10 @@ function App() {
         />
         <p>
           <span className="block mb-4 text-2xl font-mono bg-black bg-opacity-30 px-4 py-2 rounded-lg">
-            {formatTime(currentTime)}
+            {formatTime(currentTime).time}
+          </span>
+          <span className="block mb-4 text-lg font-mono bg-black bg-opacity-20 px-3 py-1 rounded-md text-gray-200">
+            {formatTime(currentTime).date}
           </span>
         </p>
         <p>
