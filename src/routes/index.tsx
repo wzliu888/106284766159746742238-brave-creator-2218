@@ -23,6 +23,14 @@ function App() {
     })
   }
 
+  const formatDate = (date: Date) => {
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  }
+
   return (
     <div className="text-center">
       <header className="min-h-screen flex flex-col items-center justify-center bg-[#282c34] text-white text-[calc(10px+2vmin)]">
@@ -34,6 +42,9 @@ function App() {
         <p>
           <span className="block mb-4 text-2xl font-mono bg-black bg-opacity-30 px-4 py-2 rounded-lg">
             {formatTime(currentTime)}
+          </span>
+          <span className="block text-sm text-gray-300 font-light">
+            {formatDate(currentTime)}
           </span>
         </p>
         <p>
