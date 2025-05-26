@@ -2,12 +2,25 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import logo from '../logo.svg'
 
+const TIME_ZONES = [
+  { value: 'America/New_York', label: 'Eastern Time' },
+  { value: 'America/Chicago', label: 'Central Time' },
+  { value: 'America/Denver', label: 'Mountain Time' },
+  { value: 'America/Los_Angeles', label: 'Pacific Time' },
+  { value: 'Europe/London', label: 'London' },
+  { value: 'Europe/Paris', label: 'Paris' },
+  { value: 'Asia/Tokyo', label: 'Tokyo' },
+  { value: 'Asia/Shanghai', label: 'Shanghai' },
+  { value: 'Australia/Sydney', label: 'Sydney' },
+] as const
+
 export const Route = createFileRoute('/')({
   component: App,
 })
 
 function App() {
   const [currentTime, setCurrentTime] = useState(new Date())
+  const [selectedTimeZone, setSelectedTimeZone] = useState('America/New_York')
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -19,12 +32,14 @@ function App() {
 
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString('en-US', {
+      timeZone: selectedTimeZone,
       hour12: true,
     })
   }
 
   const formatDate = (date: Date) => {
     return date.toLocaleDateString('en-US', {
+      timeZone: selectedTimeZone,
       month: 'short',
       day: 'numeric',
       year: 'numeric',
@@ -39,6 +54,19 @@ function App() {
           className="h-[40vmin] pointer-events-none animate-[spin_20s_linear_infinite]"
           alt="logo"
         />
+        <p>
+          <select 
+            value={selectedTimeZone}
+            onChange={(e) => setSelectedTimeZone(e.target.value)}
+            className="mb-3 px-3 py-1 bg-black bg-opacity-50 text-white border border-gray-500 rounded-md text-sm focus:outline-none focus:border-[#61dafb]"
+          >
+            {TIME_ZONES.map((tz) => (
+              <option key={tz.value} value={tz.value} className="bg-black text-white">
+                {tz.label}
+              </option>
+            ))}
+          </select>
+        </p>
         <p>
           <span className="block mb-4 text-2xl font-mono bg-black bg-opacity-30 px-4 py-2 rounded-lg">
             {formatTime(currentTime)}
