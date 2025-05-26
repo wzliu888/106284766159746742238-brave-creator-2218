@@ -8,6 +8,16 @@ export const Route = createFileRoute('/')({
 
 function App() {
   const [currentTime, setCurrentTime] = useState(new Date())
+  const [selectedTimeZone, setSelectedTimeZone] = useState('America/New_York')
+
+  const timeZones = [
+    { value: 'America/New_York', label: 'Eastern Time' },
+    { value: 'America/Chicago', label: 'Central Time' },
+    { value: 'America/Denver', label: 'Mountain Time' },
+    { value: 'America/Los_Angeles', label: 'Pacific Time' },
+    { value: 'Europe/London', label: 'London' },
+    { value: 'Asia/Tokyo', label: 'Tokyo' },
+  ]
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -20,6 +30,7 @@ function App() {
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString('en-US', {
       hour12: true,
+      timeZone: selectedTimeZone,
     })
   }
 
@@ -28,6 +39,7 @@ function App() {
       month: 'short',
       day: 'numeric',
       year: 'numeric',
+      timeZone: selectedTimeZone,
     })
   }
 
@@ -46,6 +58,17 @@ function App() {
               {formatDate(currentTime)}
             </span>
           </span>
+          <select
+            value={selectedTimeZone}
+            onChange={(e) => setSelectedTimeZone(e.target.value)}
+            className="mt-3 px-3 py-1 bg-black bg-opacity-50 text-white border border-gray-600 rounded text-sm focus:outline-none focus:border-blue-400"
+          >
+            {timeZones.map((tz) => (
+              <option key={tz.value} value={tz.value} className="bg-gray-800">
+                {tz.label}
+              </option>
+            ))}
+          </select>
         </p>
         <p>
           Edit <code>src/routes/index.tsx</code> and save to reload.
